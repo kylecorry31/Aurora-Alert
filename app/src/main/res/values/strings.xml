@@ -7,4 +7,17 @@
     <string name="alerts">Alerts</string>
     <string name="settings">Settings</string>
     <string name="space_weather_alert">Space Weather Alert</string>
+    <string name="notify_kp_warnings">Notify Kp Warnings</string>
+    <string name="pref_key_kp_warnings">pref_key_kp_warnings</string>
+    <string name="pref_key_kp_alerts">pref_key_kp_alerts</string>
+    <string name="pref_key_ef_warnings">pref_key_ef_warnings</string>
+    <string name="pref_key_ef_alerts">pref_key_ef_alerts</string>
+    <string name="pref_key_px_warnings">pref_key_px_warnings</string>
+    <string name="pref_key_px_alerts">pref_key_px_alerts</string>
+    <string name="pref_key_tp_warnings">pref_key_tp_warnings</string>
+    <string name="pref_key_tp_alerts">pref_key_tp_alerts</string>
+    <string name="pref_key_xm_warnings">pref_key_xm_warnings</string>
+    <string name="pref_key_xm_alerts">pref_key_xm_alerts</string>
+    <string name="pref_key_sud_warnings">pref_key_sud_warnings</string>
+    <string name="pref_key_storm_watch">pref_key_storm_watch</string>
 </resources>

@@ -9,26 +9,32 @@ import com.kylecorry.aurora_alert.domain.Notification
 import com.kylecorry.aurora_alert.domain.NotificationLevel
 import com.kylecorry.aurora_alert.infrastructure.persistence.AuroraAlert
 import com.kylecorry.aurora_alert.infrastructure.persistence.AuroraAlertDao
+import com.kylecorry.aurora_alert.infrastructure.persistence.UserPreferences
 import com.kylecorry.aurora_alert.infrastructure.space_weather.SpaceWeatherService
+import dagger.assisted.AssistedInject
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import java.time.Duration
 import java.time.Instant
+import javax.inject.Inject
 
-class UpdateAlertsCommand(
+class UpdateAlertsCommand @Inject constructor(
     private val spaceWeatherService: SpaceWeatherService,
     private val alertDao: AuroraAlertDao,
-    private val context: Context
+    private val preferences: UserPreferences,
+    @ApplicationContext private val context: Context
 ) {
     suspend fun execute() {
         // Retrieve alerts
         val notifications = spaceWeatherService.getNotifications()
 
         // Filter to new alerts
-        // TODO: Filter out alerts the user doesn't care about
         val alreadySent = alertDao.getAll()
         val newAlerts =
             notifications
                 .filter { it.level == NotificationLevel.Warning || it.level == NotificationLevel.Alert }
                 .filter { alreadySent.none { alert -> alert.serialNumber == it.id } }
+                .filterNot { preferences.isNotificationBlocked(it.alertType) }
 
         if (newAlerts.isNotEmpty()) {
             sendAlerts(newAlerts)

@@ -7,6 +7,7 @@ import com.kylecorry.andromeda.jobs.IOneTimeTaskScheduler
 import com.kylecorry.andromeda.jobs.IntervalWorker
 import com.kylecorry.andromeda.jobs.OneTimeTaskSchedulerFactory
 import com.kylecorry.aurora_alert.infrastructure.persistence.AuroraAlertDao
+import com.kylecorry.aurora_alert.infrastructure.persistence.UserPreferences
 import com.kylecorry.aurora_alert.infrastructure.space_weather.SpaceWeatherService
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -16,8 +17,7 @@ import java.time.Duration
 class AlertWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
-    private val spaceWeatherService: SpaceWeatherService,
-    private val alertDao: AuroraAlertDao
+    private val alerter: UpdateAlertsCommand
 ) : IntervalWorker(appContext, workerParams, wakelockDuration = Duration.ofSeconds(30)) {
 
     override fun getFrequency(context: Context): Duration {
@@ -25,7 +25,7 @@ class AlertWorker @AssistedInject constructor(
     }
 
     override suspend fun execute(context: Context) {
-        UpdateAlertsCommand(spaceWeatherService, alertDao, context).execute()
+        alerter.execute()
     }
 
     override val uniqueId: Int = UNIQUE_ID

@@ -14,10 +14,3 @@ data class Notification(
     val isCancellation: Boolean = false,
     val isExtension: Boolean = false
 )
-
-enum class NotificationLevel {
-    Alert,
-    Warning,
-    Watch,
-    Summary
-}

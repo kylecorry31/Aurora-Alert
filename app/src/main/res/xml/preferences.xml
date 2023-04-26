@@ -1,4 +1,79 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!-- TODO: Figure out the other warnings / alerts -->
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_kp_warnings"
+        android:title="Kp Warnings"
+        app:iconSpaceReserved="false" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_kp_alerts"
+        android:title="Kp Alerts"
+        app:iconSpaceReserved="false" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_ef_warnings"
+        android:title="Electron Flux Warnings"
+        app:iconSpaceReserved="false" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_ef_alerts"
+        android:title="Electron Flux Alerts"
+        app:iconSpaceReserved="false" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_px_warnings"
+        android:title="Proton Flux Warnings"
+        app:iconSpaceReserved="false" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_px_alerts"
+        android:title="Proton Flux Alerts"
+        app:iconSpaceReserved="false" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_tp_warnings"
+        android:title="Radio Emission Warnings"
+        app:iconSpaceReserved="false" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_tp_alerts"
+        android:title="Radio Emission Alerts"
+        app:iconSpaceReserved="false" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_xm_warnings"
+        android:title="X-Ray Flux Warnings"
+        app:iconSpaceReserved="false" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_xm_alerts"
+        android:title="X-Ray Flux Alerts"
+        app:iconSpaceReserved="false" />
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="@string/pref_key_sud_warnings"
+        android:title="Geomagnetic Sudden Impulse Warning"
+        app:iconSpaceReserved="false" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="@string/pref_key_storm_watch"
+        android:title="Geomagnetic Storm Watch"
+        app:iconSpaceReserved="false" />
+
+
 </PreferenceScreen>
