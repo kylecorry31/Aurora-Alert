@@ -83,7 +83,7 @@ dependencies {
     implementation("com.github.kylecorry31:sol:6.5.5")
 
     // Space weather
-    implementation("com.github.kylecorry31:noaa-aurora:0c311b5aa1")
+    implementation("com.github.kylecorry31:noaa-aurora:f01de2c6f5")
 
     // Andromeda
     val andromedaVersion = "5.2.0"

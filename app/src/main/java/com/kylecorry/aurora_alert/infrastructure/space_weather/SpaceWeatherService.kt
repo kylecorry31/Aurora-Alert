@@ -19,15 +19,10 @@ class SpaceWeatherService @Inject constructor() {
     private val proxy = NOAASpaceWeatherProxy()
 
     suspend fun getForecasts(): List<Reading<Float>> = onIO {
-        val forecast = proxy.get3DayForecast()
-        // TODO: Save in DB
+        val forecast = proxy.getKIndexForecast()
         forecast
-            .flatMap { it.kp }
             .map {
-                Reading(
-                    it.kp,
-                    it.start.plus(Duration.between(it.start, it.end).dividedBy(2)).toInstant()
-                )
+                Reading(it.kIndex, it.time.toInstant())
             }
             .filter { it.time >= Instant.now() }
             .sortedBy { it.time }
