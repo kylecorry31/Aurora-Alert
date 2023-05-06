@@ -5,12 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import com.kylecorry.andromeda.alerts.dialog
+import com.kylecorry.andromeda.alerts.toast
 import com.kylecorry.andromeda.core.coroutines.onMain
+import com.kylecorry.andromeda.core.math.DecimalFormatter
+import com.kylecorry.andromeda.core.system.Resources
 import com.kylecorry.andromeda.fragments.BoundFragment
 import com.kylecorry.andromeda.fragments.inBackground
 import com.kylecorry.aurora_alert.databinding.FragmentMainBinding
 import com.kylecorry.aurora_alert.infrastructure.space_weather.SpaceWeatherService
 import com.kylecorry.ceres.chart.Chart
+import com.kylecorry.ceres.chart.data.LineChartLayer
+import com.kylecorry.ceres.chart.data.ScatterChartLayer
+import com.kylecorry.sol.math.Vector2
+import com.kylecorry.sol.time.Time
+import com.kylecorry.sol.time.Time.toZonedDateTime
 import com.kylecorry.sol.units.Reading
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant
@@ -30,40 +40,51 @@ class MainFragment : BoundFragment<FragmentMainBinding>() {
 
     private val histogramWidth = 2.75f
 
+    private val highlightLayer = LineChartLayer(
+        emptyList(),
+        AppColor.Gray.color
+    )
+
     private val g0Layer = HistogramChartLayer(
         emptyList(),
         AppColor.Green.color,
-        histogramWidth
+        histogramWidth,
+        this::onBarClicked
     )
 
     private val g1Layer = HistogramChartLayer(
         emptyList(),
         Color.parseColor("#F6EB14"),
-        histogramWidth
+        histogramWidth,
+        this::onBarClicked
     )
 
     private val g2Layer = HistogramChartLayer(
         emptyList(),
         Color.parseColor("#FFC800"),
-        histogramWidth
+        histogramWidth,
+        this::onBarClicked
     )
 
     private val g3Layer = HistogramChartLayer(
         emptyList(),
         Color.parseColor("#FF9600"),
-        histogramWidth
+        histogramWidth,
+        this::onBarClicked
     )
 
     private val g4Layer = HistogramChartLayer(
         emptyList(),
         Color.parseColor("#FF0000"),
-        histogramWidth
+        histogramWidth,
+        this::onBarClicked
     )
 
     private val g5Layer = HistogramChartLayer(
         emptyList(),
         Color.parseColor("#C80000"),
-        histogramWidth
+        histogramWidth,
+        this::onBarClicked
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,7 +98,8 @@ class MainFragment : BoundFragment<FragmentMainBinding>() {
                 g2Layer,
                 g3Layer,
                 g4Layer,
-                g5Layer
+                g5Layer,
+                highlightLayer
             )
         )
     }
@@ -136,5 +158,17 @@ class MainFragment : BoundFragment<FragmentMainBinding>() {
 
             layer.data = layer.data + reading
         }
+    }
+
+    private fun onBarClicked(point: Vector2): Boolean {
+        val time = Instant.now().plus(Time.hours(point.x.toDouble())).toZonedDateTime()
+        val text = "Kp ${DecimalFormatter.format(point.y, 2)} at ${formatter.formatDateTime(time)}"
+        binding.homeTitle.subtitle.isVisible = true
+        binding.homeTitle.subtitle.text = text
+        highlightLayer.data = listOf(
+            Vector2(point.x, 0f),
+            Vector2(point.x, 10f)
+        )
+        return true
     }
 }

@@ -2,17 +2,18 @@ package com.kylecorry.aurora_alert.ui
 
 import androidx.annotation.ColorInt
 import com.kylecorry.andromeda.canvas.ICanvasDrawer
+import com.kylecorry.andromeda.core.units.PixelCoordinate
 import com.kylecorry.ceres.chart.IChart
 import com.kylecorry.ceres.chart.data.BaseChartLayer
 import com.kylecorry.sol.math.Vector2
 import kotlin.math.abs
 
-// TODO: Support clicks
 // TODO: Don't cut off ends (maybe add a get bounds method to ChartLayer)
 class HistogramChartLayer(
     initialData: List<Vector2>,
     @ColorInt initialColor: Int,
-    val width: Float = 6f
+    val width: Float = 6f,
+    private val onBarClicked: (point: Vector2) -> Boolean = { false },
 ) : BaseChartLayer(initialData, false) {
 
     @ColorInt
@@ -39,5 +40,21 @@ class HistogramChartLayer(
 
         // Reset the opacity
         drawer.opacity(255)
+    }
+
+    override fun onClick(drawer: ICanvasDrawer, chart: IChart, pixel: PixelCoordinate): Boolean {
+        val bar = data.map {
+            val topLeft = chart.toPixel(Vector2(it.x - width / 2, it.y))
+            val bottomRight = chart.toPixel(Vector2(it.x + width / 2, 0f))
+            Triple(it, topLeft, bottomRight)
+        }.firstOrNull {
+            it.second.x <= pixel.x && it.third.x >= pixel.x && it.second.y <= pixel.y && it.third.y >= pixel.y
+        }
+
+        if (bar != null) {
+            return onBarClicked(bar.first)
+        }
+
+        return false
     }
 }
