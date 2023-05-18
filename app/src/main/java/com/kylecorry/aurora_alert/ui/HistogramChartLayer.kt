@@ -48,7 +48,7 @@ class HistogramChartLayer(
             val bottomRight = chart.toPixel(Vector2(it.x + width / 2, 0f))
             Triple(it, topLeft, bottomRight)
         }.firstOrNull {
-            it.second.x <= pixel.x && it.third.x >= pixel.x && it.second.y <= pixel.y && it.third.y >= pixel.y
+            pixel.x in it.second.x..it.third.x
         }
 
         if (bar != null) {
