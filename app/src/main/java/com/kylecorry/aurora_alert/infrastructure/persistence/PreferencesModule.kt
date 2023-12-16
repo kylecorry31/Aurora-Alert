@@ -3,7 +3,7 @@ package com.kylecorry.aurora_alert.infrastructure.persistence
 import android.content.Context
 import com.kylecorry.andromeda.preferences.CachedPreferences
 import com.kylecorry.andromeda.preferences.IPreferences
-import com.kylecorry.andromeda.preferences.Preferences
+import com.kylecorry.andromeda.preferences.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +17,6 @@ object PreferencesModule {
     @Provides
     @Singleton
     fun providePreferences(@ApplicationContext appContext: Context): IPreferences {
-        return CachedPreferences(Preferences(appContext))
+        return CachedPreferences(SharedPreferences(appContext))
     }
 }

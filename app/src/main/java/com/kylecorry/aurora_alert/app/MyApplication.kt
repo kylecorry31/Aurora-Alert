@@ -27,8 +27,8 @@ class MyApplication : Application(), Configuration.Provider {
         PreferenceMigrator(this, key).migrate(version, migrations)
     }
 
-    override fun getWorkManagerConfiguration() =
-        Configuration.Builder()
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)
             .build()
 }
