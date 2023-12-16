@@ -18,7 +18,7 @@ class AlertWorker @AssistedInject constructor(
 ) : IntervalWorker(appContext, workerParams, wakelockDuration = Duration.ofSeconds(30)) {
 
     override fun getFrequency(context: Context): Duration {
-        return Duration.ofHours(4)
+        return Duration.ofHours(1)
     }
 
     override suspend fun execute(context: Context) {
